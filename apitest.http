@@ -1,0 +1,30 @@
+@END_POINT=http://localhost:3000/api/
+@API_KEY=da2-bx6zi2cpzfffbazpy64mbnu7mi
+
+curl --request GET \
+  --url {{END_POINT}}users \
+  --header 'Content-Type: application/json'
+###
+
+curl --request GET \
+  --url {{END_POINT}}users/1 \
+  --header 'Content-Type: application/json'
+###
+
+curl --request POST \
+  --url {{END_POINT}}users \
+  --header 'Content-Type: application/json'
+  --data '{"name" : "User A", "email" : "a@a.com", "password": "askdjfeksf"}'
+###
+
+curl --request PUT \
+  --url {{END_POINT}}users/1 \
+  --header 'Content-Type: application/json' \
+  --data '{"email": "edited@a.com"}'
+### 
+
+
+curl --request DELETE \
+  --url {{END_POINT}}users/1 \
+  --header 'Content-Type: application/json'
+###
