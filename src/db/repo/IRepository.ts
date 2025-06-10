@@ -2,9 +2,12 @@ import { SQL } from "drizzle-orm";
 
 
 export default interface IRepository<TEntity> {
+
   create(data: Omit<TEntity, "id" | "createdAt" | "updatedAt">): Promise<TEntity>;
 
-  findById(id: string | number): Promise<TEntity | null>;
+  findAll(): Promise<TEntity[]>;
+
+  findById(id: number): Promise<TEntity | null>;
 
   findOne(where?: SQL | undefined): Promise<TEntity | null>;
 
@@ -15,7 +18,8 @@ export default interface IRepository<TEntity> {
     data: Partial<Omit<TEntity, "id" | "createdAt" | "updatedAt">>
   ): Promise<TEntity>;
 
-  delete(id: string | number): Promise<void>;
+  delete(id: string | number): Promise<boolean>;
   
   exists(where?: SQL | undefined): Promise<boolean>;
+
 }

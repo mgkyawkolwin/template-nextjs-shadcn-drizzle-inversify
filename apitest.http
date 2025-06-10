@@ -18,7 +18,7 @@ curl --request POST \
 ###
 
 curl --request PUT \
-  --url {{END_POINT}}users/1 \
+  --url {{END_POINT}}users/2 \
   --header 'Content-Type: application/json' \
   --data '{"email": "edited@a.com"}'
 ### 

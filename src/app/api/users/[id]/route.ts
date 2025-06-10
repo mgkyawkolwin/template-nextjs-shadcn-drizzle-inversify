@@ -1,17 +1,21 @@
-import { db } from "@/db/drizzledb";
-import { user } from "@/db/drizzleschema";
+import { db } from "@/db/orm/drizzle/mysql/db";
+import { user } from "@/db/orm/drizzle/mysql/schema";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { container } from "@/dicontainer";
+import IUserService from "@/services/IUserService";
+import { TYPES } from "@/lib/types";
 
 
 export async function GET(request: Request, { params }: { params: { id: number } }) {
     try {
         const { id } = await params;
-        const selected = await db.select().from(user).where(eq(user.id, id));
-        if (selected.length === 0) {
+        const service = container.get<IUserService>(TYPES.IUserServce);
+        const result = await service.userFindById(id);
+        if (!result) {
             return NextResponse.json({ message: "Not found." }, { status: 404 });
         }
-        return NextResponse.json({ data: selected }, { status: 200 });
+        return NextResponse.json({ data: result }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ message: "Unknow error occured." }, { status: 500 });
     }
@@ -22,9 +26,17 @@ export async function PUT(request: Request, { params }: { params: { id: number }
     try{
         const body = await request.json();
         const { id } = await params;
-        await db.update(user)
-            .set(body)
-            .where(eq(user.id, id));
+        const service = container.get<IUserService>(TYPES.IUserServce);
+        // find existing user
+        const user = await service.userFindById(id);
+        if (!user) {
+            return NextResponse.json({ message: "Not found." }, { status: 404 });
+        }
+        // update user
+        const updatedUser = await service.userUpdate(id, body);
+        if(!updatedUser){
+            return NextResponse.json({ message: "Update failed." }, { status: 404 });
+        }
         return NextResponse.json({ message: "Updated" }, { status: 201 });
     }catch(error){
         return NextResponse.json({ message: "Unknow error occured." }, { status: 500 });
@@ -33,14 +45,14 @@ export async function PUT(request: Request, { params }: { params: { id: number }
 
 
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: { id: number } }) {
     try{
         const {id} = await params;
-        const selected = await db.select().from(user).where(eq(user.id, id));
-        if (selected.length === 0) {
-            return NextResponse.json({ message: "Not found." }, { status: 404 });
+        const service = container.get<IUserService>(TYPES.IUserServce);
+        const result = await service.userDelete(id);
+        if (!result) {
+            return NextResponse.json({ message: "Fail delete." }, { status: 404 });
         }
-        await db.delete(user).where(eq(user.id, Number(params.id)));
         return NextResponse.json({ message: "Deleted" }, { status: 200 });
     }catch(error){
         return NextResponse.json({ message: "Unknow error occured." }, { status: 500 });

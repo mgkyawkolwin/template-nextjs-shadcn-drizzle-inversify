@@ -1,7 +1,7 @@
 "use client";
 import { useActionState, useEffect, useState } from "react";
 
-import { User } from "@/db/drizzleschema";
+import { User } from "@/db/orm/drizzle/mysql/schema";
 import { APIResponse } from "@/lib/types";
 
 import { getUser, updateUser } from "@/app/(private)/admin/users/actions";

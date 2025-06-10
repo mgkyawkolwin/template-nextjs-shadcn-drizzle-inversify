@@ -1,7 +1,7 @@
 // app/CustomerList.tsx
 "use client";
 
-import { User } from "@/db/drizzleschema";
+import { User } from "@/db/orm/drizzle/mysql/schema";
 
 import { use, useActionState, useEffect, useState } from "react";
 

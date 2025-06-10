@@ -1,5 +1,5 @@
 'use server';
-import { User } from "@/db/drizzleschema"
+import { User } from "@/db/orm/drizzle/mysql/schema"
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { insertUserSchema } from '@/lib/zodschema';
