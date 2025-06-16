@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "P9G",
-  description: "P9G Management System",
+  title: "Templte - NextJS",
+  description: "NextJS, Shadcn UI, Tailwind Css, Drizzle ORM, Inversify DI, MySql Db",
 };
 
 export default function RootLayout({
@@ -27,7 +28,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="flex flex-1 min-w-screen min-h-screen">
+          <Toaster position="top-center" richColors/>
+          {children}
+        </div>
       </body>
     </html>
   );

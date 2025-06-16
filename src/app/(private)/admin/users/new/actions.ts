@@ -2,13 +2,13 @@
 import { User } from "@/db/orm/drizzle/mysql/schema"
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { insertUserSchema } from '@/lib/zodschema';
+import { userInsertSchema } from '@/lib/zodschema';
 import { APIResponse } from "@/lib/types";
 
 
 export async function createUser(prevState: any, formData: FormData) {
 
-  const validatedFields = insertUserSchema.safeParse(Object.fromEntries(formData.entries()));
+  const validatedFields = userInsertSchema.safeParse(Object.fromEntries(formData.entries()));
   
   if (!validatedFields.success) {
     return {

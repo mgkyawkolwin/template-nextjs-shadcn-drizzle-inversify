@@ -1,14 +1,9 @@
-"use client";
-import { useActionState, useEffect, useState } from "react";
+"use server";
 
-import { User } from "@/db/orm/drizzle/mysql/schema";
-import { APIResponse } from "@/lib/types";
+import UserList from "./userlist";
 
-import { getUsers, updateUser } from "./actions";
-
-import UserList from "./components/userlist";
-
-export default function page() {
+export default async function UserListPage() {
+  const allowedRoles = ['ADMIN', 'STAFF', 'AUTHENTICATED'];
 
   return (
     <UserList />

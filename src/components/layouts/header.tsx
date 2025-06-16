@@ -6,14 +6,14 @@ import {MainMenu} from './mainmenu';
 
 export function Header() {
   return (
-    <header className="w-100vw h-10vh border-b border-gray-200 p-4">
-      <div className="flex justify-between items-center">
-        <Link href="/" className="flex items-center">
-          <span className="ml-2 text-base !text-4xl font-bold text-black">Mida</span>
+    <header className="flex flex-row flex-1 max-h-[50px] justify-between border-bottom border-red-800 bg-gray-600 p-2">
+      <div className="w-[50px]">
+        <Link href="/">
+          <span className="ml-2 text-base !text-4xl font-bold text-white">Mida</span>
         </Link>
-        <div className="flex items-center space-x-5">
+      </div>
+      <div className="">
           <MainMenu />
-        </div>
       </div>
     </header>
   );

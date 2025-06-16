@@ -1,17 +1,10 @@
-"use client";
-import { use, useActionState, useEffect, useState } from "react";
+"use server";
+import { userGet, userUpdate } from "./actions";
+import UserEdit from "./useredit";
 
-import { User } from "@/db/orm/drizzle/mysql/schema";
-import { APIResponse } from "@/lib/types";
-
-import { getUser, updateUser } from "@/app/(private)/admin/users/actions";
-
-import UserEdit from "../../components/useredit";
-
-export default function page({ params }: { params: { id: number } }) {
-  //const {id} = use(params);
+export default async function UserEditPage({ params }: { params: { id: number } }) {
 
   return (
-    <UserEdit params={params} />
+    <UserEdit params={{id:params.id, getFunc: userGet, updateFunc: userUpdate}} />
   );
-}
+} 

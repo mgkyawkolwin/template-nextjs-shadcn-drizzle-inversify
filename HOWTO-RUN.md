@@ -1,5 +1,11 @@
 # HOW TO RUN
 
+## Setup Secret Key For Next's Auth.js
+This will generate AUTH_SECRET key in .env.local file
+```bash
+npx auth secret
+```
+
 ## Setup DB
 - create new mysql database
 - update connection string .env
@@ -39,3 +45,7 @@ Then run the admin panel page
 ```bash
 php -S localhost:8000 adminer-5.3.0.php
 ```
+
+## How to output log to console
+You can set env variables CONSOLE_LOG_LEVEL
+1 - info, 2 - warning, 3 - error, 4 - debug

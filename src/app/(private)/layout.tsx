@@ -7,12 +7,12 @@ import {Footer} from '../../components/layouts/footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="flex flex-col min-h-1500px">
+    <div className="flex flex-1 flex-col">
       <Header />
-      <div className='max-w-100vw h-1500px p-4'>
+      <div className='flex flex-1 p-4 bg-gray-200'>
       {children}
       </div>
       <Footer />
-    </section>
+    </div>
   );
 }

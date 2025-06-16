@@ -1,5 +1,7 @@
+//Ordered Imports
 import { SQL } from "drizzle-orm";
 
+//Local Imports
 
 export default interface IRepository<TEntity> {
 

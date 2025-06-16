@@ -1,70 +1,86 @@
 'use server';
-import { User } from "@/db/orm/drizzle/mysql/schema"
-import { query } from '@/lib/db';
+//Ordered Imports
 
+//Local Imports
+import { User } from "@/db/orm/drizzle/mysql/schema"
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { updateUserSchema } from '@/lib/zodschema'; // Your validation schema
-//import { type Sample } from '@/lib/types'; // Your types
+import { userUpdateSchema } from '@/lib/zodschema';
+import { APIResponse } from "@/lib/types";
+import consoleLogger from "@/lib/core/logger/ConsoleLogger";
+import { FormState } from "@/lib/types";
+import { HttpStatusCode } from "@/lib/constants";
 
-export async function getSample() {
-    //   const session = await auth();
-    //   if (!session) throw new Error('Unauthorized');
-    console.log("X");
-    
-    const res = await fetch(process.env.API_URL + 'users/1', {
+export async function userGet(id : number): Promise<FormState> {
+  try{
+    consoleLogger.logInfo('Actions > /admin/users/[id] > userGet');
+
+    //retrieve user
+    const response = await fetch(process.env.API_URL + `users/${id}`, {
       method: 'GET',
     });
-    const responseData = await res.json();
-    return responseData;
+
+    //user retrieval fail
+    if(response.status == HttpStatusCode.NotFound){
+      return {error: true, message: "User not found.", data: null, formData: null};
     }
-
-    
-
-export async function updateSample(prevState: any, formData: FormData){
-  // const rawData = {
-  //   id: formData.get("id"),
-  //   col1: formData.get("col1"),
-  // };
-  // Validate the form data
-  console.log("X");
-  const validatedFields = updateUserSchema.safeParse(Object.fromEntries(formData.entries()));
-  //const validatedFields = updateSampleSchema.safeParse(formData);
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing or invalid fields. Failed to update user.'+ JSON.stringify(formData),
-    };
+    if(response.status == HttpStatusCode.ServerError){
+      return {error: true, message: "Internal server error.", data: null, formData: null};
+    }
+    if(!response.ok){
+      consoleLogger.logDebug(JSON.stringify(await response.json()));
+      return {error: true, message: "Failed to retrieve user.", data: null, formData: null};
+    }
+      
+    //user retrieval success
+    const responseData = await response.json();
+    return {error:false, message : "", data: responseData.data, formData: null};
+  }catch(error){
+    consoleLogger.logError(String(error));
+    return {error: true, message: "Failed to retrieve user.", data: null, formData: null};
   }
 
-  const { id, col1 } = validatedFields.data;
+}
 
+
+
+export async function userUpdate(formState : FormState, formData: FormData) : Promise<FormState>{
   try {
-    const response = await fetch(`http://localhost:3000/api/samples/${id}`, {
+    consoleLogger.logInfo('Actions > /admin/users/[id]/edit > userUpdate');
+
+    //validate and parse form input
+    const validatedFields = userUpdateSchema.safeParse(Object.fromEntries(formData.entries()));
+    
+    //form validation fail
+    if (!validatedFields.success) {
+      consoleLogger.logError(JSON.stringify(validatedFields.error.flatten().fieldErrors));
+      return { error: true, message: 'Invalid inputs.', data: null, formData: null};
+    }
+
+    //form validation pass
+    const { id, name, email, password } = validatedFields.data;
+
+    //update user
+    const response = await fetch(process.env.API_URL + `users/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ col1 }),
+      body: JSON.stringify({ name, email, password }),
     });
-
+    
+    //update user failed
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to update user');
+      consoleLogger.logError(errorData.message);
+      return { error: true, message: 'Failed to update user.', data: null, formData: null};
     }
 
+    //update user success
     const data = await response.json();
-    
-    // Revalidate cache and redirect
-    //revalidatePath('/sample');
-    //redirect('/sample');
-    
-    return data;
+    return {error: false, message:"", data: data, formData: null};
   } catch (error) {
-    console.error('Update User Error:', error);
-    return {
-      message: 'Database Error: Failed to update user.',
-    };
+    consoleLogger.logError(error instanceof Error ? error.message : String(error));
+    return {error: true, message: 'Failed to update user.', data: null, formData: null};
   }
 }

@@ -1,23 +1,21 @@
 "use client";
 import { useActionState, useEffect, useState } from "react";
-
+//Local Imports
 import { User } from "@/db/orm/drizzle/mysql/schema";
-import { APIResponse } from "@/lib/types";
+import { FormState } from "@/lib/types";
 
-import { getUser, updateUser } from "@/app/(private)/admin/users/actions";
-
-export default function UserEdit({ params }: { params: { id: number } }) {
+export default function UserEdit({ params }:{ params:{ id:number, getFunc:(id:number) => Promise<FormState>, updateFunc:(formState:FormState, formData:FormData) => Promise<FormState> } }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const [state, formAction, isPending] = useActionState(updateUser, {
-    error: null,
-    success: false,
-    message: null
+  const [state, formAction, isPending] = useActionState(params.updateFunc, {
+    error: false,
+    message: "",
+    data : null
   });
 
   const fetchData = async () => {
-    const result = await getUser(params.id);
-    if(result.status === 0){
+    const result = await params.getFunc(params.id);
+    if(!result.error){
       setUser(result.data);
     }
   };

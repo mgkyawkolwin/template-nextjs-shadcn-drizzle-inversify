@@ -1,6 +1,14 @@
 @END_POINT=http://localhost:3000/api/
 @API_KEY=da2-bx6zi2cpzfffbazpy64mbnu7mi
 
+
+# Login
+curl --request POST \
+  --url {{END_POINT}}auth/signin \
+  --header 'Content-Type: application/json'
+  --data '{"userName" : "test", "password": "test"}'
+###
+
 curl --request GET \
   --url {{END_POINT}}users \
   --header 'Content-Type: application/json'

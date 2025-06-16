@@ -1,35 +1,38 @@
 'use client';
 
 import Link from 'next/link';
+import SignOutButton from '../uicustom/signoutbutton';
+import {signOutAction} from '@/app/actions';
 
 export function MainMenu() {
 
   return (
-    <>
+    <div className='flex gap-x-4 items-center'>
       <Link
         href="/"
-        className="text-xl font-medium text-gray-700 hover:text-blue-600"
+        className="text-l font-medium text-white hover:text-blue-600"
       >
         Dashboard
       </Link>
       <Link
         href="/products"
-        className="text-xl font-medium text-gray-700 hover:text-blue-600"
+        className="text-l font-medium text-white hover:text-blue-600"
       >
         New Reservation
       </Link>
       <Link
         href="/services"
-        className="text-xl font-medium text-gray-700 hover:text-blue-600"
+        className="text-l font-medium text-white hover:text-blue-600"
       >
         Reservations
       </Link>
       <Link
         href="/contact"
-        className="text-xl font-medium text-gray-700 hover:text-blue-600"
+        className="text-l font-medium text-white hover:text-blue-600"
       >
         Check In
       </Link>
-    </>
+      <SignOutButton action={signOutAction}/>
+    </div>
   );
 }

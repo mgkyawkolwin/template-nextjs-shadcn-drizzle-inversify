@@ -1,17 +1,9 @@
-// app/CustomerList.tsx
-"use client";
+"use server";
 
-import { User } from "@/db/orm/drizzle/mysql/schema";
+import UserView from "./userview";
 
-import { use, useActionState, useEffect, useState } from "react";
-
-import { getUser, updateUser } from "@/app/(private)/admin/users/actions";
-
-import UserView from "../components/userview";
-
-export default function page({ params }: { params: Promise<{ id: number }> }) {
+export default async function UserViewPage({ params }: { params: Promise<{ id: number }> }) {
   
-
   return (
     <UserView params={params} />
   );
