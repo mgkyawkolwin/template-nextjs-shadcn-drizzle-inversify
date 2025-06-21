@@ -22,6 +22,7 @@ import { InputWithLabel } from "@/components/uicustom/inputwithlabel"
 import { Group, GroupTitle,GroupContent } from "@/components/uicustom/group"
 import ReservationTable from "@/components/tables/reservationtable"
 import { TableButton } from "@/components/uicustom/tablebutton"
+import UserListTable from "@/components/tables/userlisttable"
 
 export default function Reservations() {
   return (
@@ -31,9 +32,6 @@ export default function Reservations() {
         <form>
           <div className="flex flex-col gap-6">
             <div className="flex flex-row gap-4">
-                <SelectReservationStatus></SelectReservationStatus>
-                <SelectReservationType></SelectReservationType>
-                <SelectPromotion></SelectPromotion>
                 <InputDateRange/>
             </div>
             <div className="flex flex-row gap-4">

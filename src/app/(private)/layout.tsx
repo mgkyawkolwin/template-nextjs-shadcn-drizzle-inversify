@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-1 flex-col">
       <Header />
-      <div className='flex flex-1 p-4 bg-gray-200'>
+      <div className='flex flex-1 p-4 bg-[#aaaaaa]'>
       {children}
       </div>
       <Footer />

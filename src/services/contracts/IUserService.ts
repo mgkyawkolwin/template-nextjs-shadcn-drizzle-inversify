@@ -1,11 +1,14 @@
 import { User } from "@/db/orm/drizzle/mysql/schema"
+import { PagerParams, SearchParam } from "@/lib/types";
 
 
 export default interface IUserService {
 
     userDelete(id : number) : Promise<boolean>;
 
-    userFindAll(): Promise<User[]>;
+    userFindAll(pagerParams : PagerParams): Promise<User[]>;
+
+    userFindMany(searchParams:SearchParam[], pagerParams : PagerParams): Promise<[User[],PagerParams]>;
 
     userFindByUserNameAndPassword(userName:string, password:string) : Promise<User | null>;
 

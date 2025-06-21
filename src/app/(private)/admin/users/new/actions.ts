@@ -2,48 +2,48 @@
 import { User } from "@/db/orm/drizzle/mysql/schema"
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { userInsertSchema } from '@/lib/zodschema';
-import { APIResponse } from "@/lib/types";
+import { userCreateSchema } from '@/lib/zodschema';
+import { APIResponse, FormState } from "@/lib/types";
+import consoleLogger from "@/lib/core/logger/ConsoleLogger";
 
 
-export async function createUser(prevState: any, formData: FormData) {
-
-  const validatedFields = userInsertSchema.safeParse(Object.fromEntries(formData.entries()));
-  
-  if (!validatedFields.success) {
-    return {
-      error: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing or invalid fields. Failed to update user.' + JSON.stringify(formData),
-    };
-  }
-
-  const { name, email, password } = validatedFields.data;
-
+export async function userCreate(formState : FormState, formData: FormData) : Promise<FormState>{
   try {
-    const response = await fetch(process.env.API_URL + `users/`, {
+    consoleLogger.logInfo('Actions > /admin/users/new > userCreate');
+    consoleLogger.logDebug(JSON.stringify(formData.entries));
+
+    //validate and parse form input
+    const validatedFields = userCreateSchema.safeParse(Object.fromEntries(formData.entries()));
+    
+    //form validation fail
+    if (!validatedFields.success) {
+      consoleLogger.logError(JSON.stringify(validatedFields.error.flatten().fieldErrors));
+      return { error: true, message: 'Invalid inputs.', data: null, formData:null};
+    }
+
+    //form validation pass
+    const { email, userName } = validatedFields.data;
+
+    //update user
+    const response = await fetch(process.env.API_URL + `users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ userName, email }),
     });
+    
+    //update user failed
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create sample');
+      consoleLogger.logError(errorData.message);
+      return { error: true, message: 'Failed to create user.', data: null, formData:null};
     }
 
-    const data = await response.json();
-
-    // Revalidate cache and redirect
-    //revalidatePath('/sample');
-    //redirect('/sample');
-
-    //return data;
   } catch (error) {
-    console.error('Update Sample Error:', error);
-    return {
-      message: 'Database Error: Failed to create sample.',
-    };
+    consoleLogger.logError(error instanceof Error ? error.message : String(error));
+    return {error: true, message: 'Failed to update user.', data: null, formData:null};
   }
-  redirect('/users');
+  //if we come this far, everything is alright, redirect to user list
+  redirect('/admin/users');
 }

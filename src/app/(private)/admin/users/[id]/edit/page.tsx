@@ -4,7 +4,8 @@ import UserEdit from "./useredit";
 
 export default async function UserEditPage({ params }: { params: { id: number } }) {
 
+  const userId = (await params).id;
   return (
-    <UserEdit params={{id:params.id, getFunc: userGet, updateFunc: userUpdate}} />
+    <UserEdit params={{id:userId, getFunc: userGet, updateFunc: userUpdate}} />
   );
 } 

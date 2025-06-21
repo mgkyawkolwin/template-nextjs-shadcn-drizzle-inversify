@@ -15,7 +15,7 @@ export async function middleware(request : NextRequest) {
       //no session, if accessing authenticated area, redirect to login page
       const { pathname, origin } = request.nextUrl;
       if (pathname === '/') {
-        return NextResponse.redirect(new URL('/auth/login', request.url))
+        return NextResponse.redirect(new URL('/auth/signin', request.url))
       }
       //admin urls
       if (pathname.startsWith("/admin")) {

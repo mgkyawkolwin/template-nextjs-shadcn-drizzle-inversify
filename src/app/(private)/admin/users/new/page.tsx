@@ -1,11 +1,11 @@
 "use server";
 
-import UserNew from "@/components/user/usernew";
-import { createUser } from "./actions";
+import UserCreate from "@/app/(private)/admin/users/new/usercreate";
+import { userCreate } from "./actions";
 
 export default async function UserNewPage() {
 
   return (
-    <UserNew action={createUser}/>
+    <UserCreate action={userCreate}/>
   );
 }

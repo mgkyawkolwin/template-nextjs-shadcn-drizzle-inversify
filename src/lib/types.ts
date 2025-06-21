@@ -9,9 +9,23 @@ export type APIResponse = {
 export type FormState = {
   error : boolean,
   message : string,
-  data : any,
-  formData : FormData | null
+  data? : any,
+  formData? : FormData | null,
+  pager?: PagerParams
 };
+
+export type PagerParams = {
+  orderBy: string, 
+  orderDirection: string, 
+  pageIndex: number, 
+  pageSize: number,
+  pages: number
+}
+
+export type SearchParam = {
+  searchColumn : string,
+  searchValue : string
+}
 
 export const TYPES = {
   IDatabase : Symbol.for('IDatabase'),

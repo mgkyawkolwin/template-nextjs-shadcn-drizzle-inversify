@@ -5,7 +5,7 @@ import consoleLogger from '@/lib/core/logger/ConsoleLogger';
 import type IUserRepository from '@/db/repo/IUserRepository';
 import type IUserService from "./contracts/IUserService";
 import { User } from "@/db/orm/drizzle/mysql/schema"
-import { TYPES } from '@/lib/types';
+import { PagerParams, SearchParam, TYPES } from '@/lib/types';
 
 
 @injectable()
@@ -30,9 +30,16 @@ export default class UserService implements IUserService{
     }
 
 
-    async userFindAll(): Promise<User[]> {
-      consoleLogger.logInfo('UserService > userFindAll');
-      const result = await this.userRepository.findAll();
+    async userFindAll(pagerParams : PagerParams): Promise<User[]> {
+      consoleLogger.logInfo('UserService > userFindMany');
+      const result = await this.userRepository.findAll(pagerParams);
+      return result;
+    }
+
+
+    async userFindMany(searchParams:SearchParam[], pagerParams : PagerParams): Promise<[User[], PagerParams]> {
+      consoleLogger.logInfo('UserService > userFindMany');
+      const result = await this.userRepository.findMany(searchParams, pagerParams);
       return result;
     }
 

@@ -4,32 +4,36 @@ import { useActionState, useEffect, useState } from "react";
 import { User } from "@/db/orm/drizzle/mysql/schema";
 import { APIResponse } from "@/lib/types";
 
-import { userGetAll, userUpdate } from "@/app/(private)/admin/users/actions";
+import { userGetList, userUpdate } from "@/app/(private)/admin/users/actions";
 import { toast } from "sonner";
+import UserListTable from "@/components/tables/userlisttable";
+import consoleLogger from "@/lib/core/logger/ConsoleLogger";
 
 export default function UserList() {
+  consoleLogger.logInfo("Client > UserList");
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
 
-  const [state, formAction, isPending] = useActionState(userUpdate, {
+  const [state, formAction, isPending] = useActionState(userGetList, {
     error: false,
-    message: "",
-    data : null,
-    formData: null
+    message: ""
   });
 
-  const fetchData = async () => {
-    const result = await userGetAll();
-    if(!result.error){
-      setUsers(result.data);
-    }
-    setIsLoaded(true);
-  };
+  // const fetchData = async () => {
+  //   consoleLogger.logInfo('UserList -> fetchData()');
+  //   const result = await userGetList(state,new FormData());
+  //   if(!result.error){
+  //     consoleLogger.logDebug(JSON.stringify(result.data));
+  //     setUsers(result.data);
+      
+  //   }
+  //   setIsLoaded(true);
+  // };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {consoleLogger.logInfo('useEffect is called.');
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     if(state.error){
@@ -37,24 +41,7 @@ export default function UserList() {
     }
   },[state]);
 
-
-  if (!isLoaded) return <div>Loading ...</div>;
-  if (users.length === 0) return <div>No Data</div>;
-  if(state.error) return <div>{state.message}</div>
-
   return (
-    <div>this is sample list page
-      {users.map((user) => (
-        <div key={user.id}>
-          {/* <form key={user.id} action={formAction}> */}
-          <input name="id" defaultValue={user.id} />
-          <input name="name" defaultValue={user.name ?? ""} />
-          <input name="email" defaultValue={user.email ?? ""} />
-          <input name="password" defaultValue={user.password ?? ""} />
-          <input type="submit" value={"Save"}></input>
-          {/* </form> */}
-        </div>
-      ))}
-    </div>
+    <UserListTable formState={state} formAction={formAction} isPending={isPending} />
   );
 }

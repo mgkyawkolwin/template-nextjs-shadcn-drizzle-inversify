@@ -3,6 +3,11 @@ import { useActionState, useEffect, useState } from "react";
 //Local Imports
 import { User } from "@/db/orm/drizzle/mysql/schema";
 import { FormState } from "@/lib/types";
+import { Loader } from "@/components/uicustom/loader";
+import { Group, GroupContent, GroupTitle } from "@/components/uicustom/group";
+import { InputWithLabel } from "@/components/uicustom/inputwithlabel";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function UserEdit({ params }:{ params:{ id:number, getFunc:(id:number) => Promise<FormState>, updateFunc:(formState:FormState, formData:FormData) => Promise<FormState> } }) {
   const [user, setUser] = useState<User | null>(null);
@@ -10,7 +15,8 @@ export default function UserEdit({ params }:{ params:{ id:number, getFunc:(id:nu
   const [state, formAction, isPending] = useActionState(params.updateFunc, {
     error: false,
     message: "",
-    data : null
+    data : null,
+    formData: null
   });
 
   const fetchData = async () => {
@@ -22,21 +28,44 @@ export default function UserEdit({ params }:{ params:{ id:number, getFunc:(id:nu
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchData();
   }, [isPending]);
 
+  useEffect(() => {
+    if(state.error){
+      toast(state.message);
+    }else{
+      toast(state.message);
+    }
+  }, [state]);
 
-  if (!user) return <div>Loading ...</div>;
-  if(state.error) return <div>{state.message}</div>
 
   return (
-    <div>EDIT
-      <form action={formAction}>
-          <input name="id" defaultValue={user.id} />
-          <input name="name" defaultValue={user.name ?? ""} />
-          <input name="email" defaultValue={user.email ?? ""} />
-          <input name="password" defaultValue={user.password ?? ""} />
-          <input type="submit" value={"Save"}></input>
+      <div  className="flex flex-1">
+        <Loader isLoading={isPending} />
+        <Group className="w-[500px] m-auto">
+        <GroupTitle>
+          User Detail
+        </GroupTitle>
+        <GroupContent>
+        <form action={formAction}>
+          <div className="flex flex-col gap-4">
+              <InputWithLabel label="User ID" type="number" name="id" readOnly defaultValue={user?.id} />
+              <InputWithLabel label="User Name"  name="userName" defaultValue={user?.userName ?? ""} />
+              <InputWithLabel label="Email" type="email" name="email" defaultValue={user?.email} />
+              <div className="flex flex-1 gap-x-4">
+                <Button name="action" value={"delete"} type="submit">Delete</Button>
+                <Button name="action" value={"delete"} type="submit">Save</Button>
+              </div>
+            
+          </div>
           </form>
-    </div>
-  );
+        </GroupContent>
+      </Group>
+      </div>
+    );
+
 }
