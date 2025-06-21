@@ -9,33 +9,9 @@ import {
 } from "@tanstack/react-table"
 
 import DataTable from "./datatable"
-import { User } from "@/db/orm/drizzle/mysql/schema"
+import { User } from "@/data/orm/drizzle/mysql/schema"
 import consoleLogger from "@/lib/core/logger/ConsoleLogger"
 import { FormState } from "@/lib/types"
-
-
-const users: User[] = [
-  {
-    id: 1,
-    name: "aa",
-    userName: "pending",
-    email: "m@example.com",
-    password:"adf",
-    role:"ADMIN",
-    createdAt:null,
-    updatedAt:null
-  },
-  {
-    id: 1,
-    name: "aa",
-    userName: "pending",
-    email: "m@example.com",
-    password:"adf",
-    role:"ADMIN",
-    createdAt:null,
-    updatedAt:null
-  }
-]
 
 export const columns: ColumnDef<User>[] = [
   {

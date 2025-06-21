@@ -1,11 +1,11 @@
 // app/CustomerList.tsx
 "use client";
 
-import { User } from "@/db/orm/drizzle/mysql/schema";
+import { User } from "@/data/orm/drizzle/mysql/schema";
 
 import { use, useEffect, useState } from "react";
 
-import { userGet } from "@/app/(private)/admin/users/[id]/actions";
+import { userGet } from "@/app/(private)/console/users/[id]/actions";
 import { toast } from "sonner";
 import { Loader } from "@/components/uicustom/loader";
 import { Group, GroupContent, GroupTitle } from "@/components/uicustom/group";

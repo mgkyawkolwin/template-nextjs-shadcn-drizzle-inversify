@@ -1,6 +1,3 @@
-//Ordered Imports
-
-//Local Imports
 import IRepository from "./IRepository";
 import { User } from "../orm/drizzle/mysql/schema";
 

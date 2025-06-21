@@ -1,10 +1,9 @@
-//Ordered Imports
 import { injectable } from 'inversify';
 import { MySql2Database, drizzle} from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
-//Local Imports
-import { IDatabase } from './IDatabase';
-import * as schema from './orm/drizzle/mysql/schema';
+
+import { IDatabase } from '../IDatabase';
+import * as schema from '@/data/orm/drizzle/mysql/schema';
 
 export type MySqlDbType = MySql2Database<typeof schema>;
 

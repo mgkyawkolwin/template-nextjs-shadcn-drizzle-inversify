@@ -1,4 +1,4 @@
-import { User } from "@/db/orm/drizzle/mysql/schema"
+import { User } from "@/data/orm/drizzle/mysql/schema"
 import { PagerParams, SearchParam } from "@/lib/types";
 
 

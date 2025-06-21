@@ -1,15 +1,13 @@
-//Ordered Imports
 import { and, eq } from "drizzle-orm";
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
 
-//Local Imports
-import { User, user } from "@/db/orm/drizzle/mysql/schema";
+import { User, user } from "@/data/orm/drizzle/mysql/schema";
 import { Repository } from "./Repository";
 import IUserRepository from "../IUserRepository";
 
 import { TYPES } from "@/lib/types";
-import { type IDatabase } from "@/db/IDatabase";
+import { type IDatabase } from "@/data/db/IDatabase";
 
 
 @injectable()

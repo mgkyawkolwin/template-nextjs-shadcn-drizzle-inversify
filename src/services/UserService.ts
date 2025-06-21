@@ -2,9 +2,9 @@ import { injectable, inject } from 'inversify';
 
 //local imports, sorted
 import consoleLogger from '@/lib/core/logger/ConsoleLogger';
-import type IUserRepository from '@/db/repo/IUserRepository';
+import type IUserRepository from '@/data/repo/IUserRepository';
 import type IUserService from "./contracts/IUserService";
-import { User } from "@/db/orm/drizzle/mysql/schema"
+import { User } from "@/data/orm/drizzle/mysql/schema"
 import { PagerParams, SearchParam, TYPES } from '@/lib/types';
 
 

@@ -1,11 +1,9 @@
-//Ordered Repository
 import { SQL, and, asc, desc, eq, gt, gte, inArray, lt, lte, or } from "drizzle-orm";
 import { MySqlColumn, MySqlTableWithColumns } from "drizzle-orm/mysql-core";
 import "reflect-metadata";
 import { unstable_cache } from 'next/cache';
 import { revalidateTag } from 'next/cache';
 
-//Local Repository
 import IRepository from "../IRepository";
 import { Repository } from "./Repository";
 

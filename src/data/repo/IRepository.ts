@@ -1,8 +1,5 @@
-//Ordered Imports
 import { PagerParams, SearchParam } from "@/lib/types";
 import { SQL } from "drizzle-orm";
-
-//Local Imports
 
 export default interface IRepository<TEntity> {
 

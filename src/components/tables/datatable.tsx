@@ -3,7 +3,6 @@
 import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowUpDown } from "lucide-react"
 
 import {
   ColumnDef,
@@ -37,10 +36,7 @@ import {
 import consoleLogger from "@/lib/core/logger/ConsoleLogger"
 import { SelectWithLabel } from "../uicustom/selectwithlabel"
 import { FormState } from "@/lib/types"
-import { User } from "@/db/orm/drizzle/mysql/schema"
 import { Loader } from "../uicustom/loader"
-
-
 
 
 interface DataTableProps<TData, TValue> {
@@ -70,14 +66,6 @@ export default function DataTable<TData, TValue>({
   const [orderBy, setOrderBy] = React.useState("id");
   const [orderDirection, setOrderDirection] = React.useState("asc");
   const [pageIndexList, setPageIndexList] = React.useState(new Map<string, string>([["1", "1"]]));
-
-  const [pending, startTransition] = React.useTransition();
-
-  const [tableData, setTableData] = React.useState<TData[]>(data);
-  const [selectedPageIndex, setSelectedPageIndex] = React.useState(formState.pager?.pageIndex);
-  const [selectedPageSize, setSelectedPageSize] = React.useState(formState.pager?.pageSize);
-
-  const { error, message, formData, pager } = formState;
 
   const formRef = React.useRef<HTMLFormElement>(null);
 
@@ -124,8 +112,6 @@ export default function DataTable<TData, TValue>({
   });
 
 
-
-
   React.useEffect(() => {
     consoleLogger.logInfo("sorting is called.");
     consoleLogger.logDebug(sorting);
@@ -141,11 +127,11 @@ export default function DataTable<TData, TValue>({
     }
   }, []);
 
+
   React.useEffect(() => {
     consoleLogger.logInfo("formState is changed.");
     setPages(formState.pager?.pages ?? 1);
   }, [formState]);
-
 
 
   React.useEffect(() => {
@@ -158,6 +144,7 @@ export default function DataTable<TData, TValue>({
     setPageIndexList(temp);
   }, [pages]);
 
+  
   React.useEffect(() => {
     consoleLogger.logInfo("pagination is changed.");
     consoleLogger.logDebug(pageIndex);

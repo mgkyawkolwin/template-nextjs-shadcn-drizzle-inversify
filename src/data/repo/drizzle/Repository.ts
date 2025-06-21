@@ -3,18 +3,18 @@ import { SQL, and,  count, asc, desc, eq, gt, gte, inArray, lt, lte, or, like, T
 import { MySqlColumn, MySqlTable, MySqlTableWithColumns } from "drizzle-orm/mysql-core";
 import { MySqlQueryResultHKT } from "drizzle-orm/mysql-core";
 import { MySqlTransaction } from "drizzle-orm/mysql-core";
-import { db, type DBType, type TransactionType } from "@/db/orm/drizzle/mysql/db";
+import { db, type DBType, type TransactionType } from "@/data/orm/drizzle/mysql/db";
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
 
 //Local Imports
 import IRepository from "../IRepository";
 import { PagerParams, SearchParam, TYPES } from "@/lib/types";
-import { type IDatabase } from "@/db/IDatabase";
-import IDrizzleTable from "@/db/repo/drizzle/IDrizzleTable";
+import { type IDatabase } from "@/data/db/IDatabase";
+import IDrizzleTable from "@/data/repo/drizzle/IDrizzleTable";
 import consoleLogger from "@/lib/core/logger/ConsoleLogger";
 import { pages } from "next/dist/build/templates/app-page";
-import { user } from "@/db/orm/drizzle/mysql/schema";
+import { user } from "@/data/orm/drizzle/mysql/schema";
 import { pagerWithDefaults } from "@/lib/utils";
 
 
@@ -157,44 +157,4 @@ export abstract class Repository<TEntity, TTable extends  IDrizzleTable> impleme
     return !!record;
   }
 
-  // Query builder methods
-  // protected eq(column: MySqlColumn, value: unknown): SQL {
-  //   return eq(column, value);
-  // }
-
-  // protected and(...conditions: (SQL | undefined)[]): SQL | undefined {
-  //   return and(...conditions);
-  // }
-
-  // protected or(...conditions: (SQL | undefined)[]): SQL | undefined {
-  //   return or(...conditions);
-  // }
-
-  // protected gt(column: MySqlColumn, value: unknown): SQL {
-  //   return gt(column, value);
-  // }
-
-  // protected gte(column: MySqlColumn, value: unknown): SQL {
-  //   return gte(column, value);
-  // }
-
-  // protected lt(column: MySqlColumn, value: unknown): SQL {
-  //   return lt(column, value);
-  // }
-
-  // protected lte(column: MySqlColumn, value: unknown): SQL {
-  //   return lte(column, value);
-  // }
-
-  // protected inArray(column: MySqlColumn, values: unknown[]): SQL {
-  //   return inArray(column, values);
-  // }
-
-  // protected asc(column: MySqlColumn): SQL {
-  //   return asc(column);
-  // }
-
-  // protected desc(column: MySqlColumn): SQL {
-  //   return desc(column);
-  // }
 }
