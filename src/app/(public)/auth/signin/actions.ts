@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation';
 import { signIn } from "@/app/auth";
 import consoleLogger from '@/lib/core/logger/ConsoleLogger';
+import { AppUrl } from '@/lib/constants';
 
 
 export async function signInAction(state : {error:boolean, message:string}, formData:FormData){
@@ -34,5 +35,5 @@ export async function signInAction(state : {error:boolean, message:string}, form
         return {error: true,  message: "Unknown error.", formData: formData};
     }
     //if we come this far, we are ok with sign in process, safely redirect now
-    redirect("/admin/users");
+    redirect(AppUrl.main);
 }

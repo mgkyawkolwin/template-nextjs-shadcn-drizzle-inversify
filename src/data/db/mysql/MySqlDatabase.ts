@@ -14,6 +14,11 @@ export class MySqlDatabase implements IDatabase<MySqlDbType>{
   constructor() {
     const pool = mysql.createPool({
       uri: process.env.DATABASE_URL!,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
+      idleTimeout: 60000,
+      enableKeepAlive: true
     });
     this._db = drizzle(pool, { schema, mode: 'default' });
   }

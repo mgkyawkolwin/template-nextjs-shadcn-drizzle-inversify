@@ -10,3 +10,8 @@ export const HttpStatusCode = {
     NotFound : 404,
     ServerError : 500,
 }
+
+export const AppUrl = {
+    signin : 'auth/signin',
+    main : 'users'
+}

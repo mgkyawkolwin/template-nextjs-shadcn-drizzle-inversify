@@ -11,5 +11,12 @@
 - Caching - NextJs built-in cache, fetch catching, unstable-cache
 - Migration - Drizzle
 - Form Validation - Zod Schema
+
 ## Database
 MySql
+
+## Testing
+Unit/Integration Testing - Vitest
+Component - React Testing Library
+API - MSW (Mock Service Worker)
+E2E - Playwright
